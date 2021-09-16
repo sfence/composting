@@ -1,0 +1,9 @@
+
+composting_amount_per_composter (Maximum amount of biomase per composter) int 200
+
+composting_clod_cost (How much amount of compost cost compost clod) int 100
+
+composting_time_divider (Time divider for composting speed) int 72
+
+composting_soil_time_divider (Time divider for garden soil timer) int 72
+
