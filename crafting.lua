@@ -1,8 +1,13 @@
 
+local dirt = "default:dirt";
+if minetest.get_modpath("hades_core") then
+  dirt = "hades_core:dirt";
+end
+
 minetest.register_craft({
 	output = "composting:garden_soil",
 	recipe = {
-		{"composting:compost_clod", "default:dirt", "composting:compost_clod"},
+		{"composting:compost_clod", dirt, "composting:compost_clod"},
 	}
 })
 

@@ -144,7 +144,7 @@ end
 
 local short_desc = S("Composter");
 local desc = short_desc;
-local tt_help = S("Punch me with water bucket/wateringcan to make me more wet.");
+local tt_help = S("Punch me with compostable item in hand to fill me.");
 if (minetest.get_modpath("tt")==nil) then
   desc = desc.."\n"..tt_help;
 end

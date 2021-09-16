@@ -45,6 +45,24 @@ if minetest.get_modpath("default") then
   table.insert(grass_5, "default:grass_");
   table.insert(dry_grass_5, "default:dry_grass_");
 end
+if minetest.get_modpath("hades_core") then
+  -- leaves
+  table.insert(leaves, "hades_trees:banana_leaves");
+  table.insert(leaves, "hades_trees:birch_leaves");
+  table.insert(leaves, "hades_trees:canvas_leaves");
+  table.insert(leaves, "hades_trees:cultivated_jungle_leaves");
+  table.insert(leaves, "hades_trees:jungle_leaves");
+  table.insert(leaves, "hades_trees:leaves");
+  table.insert(leaves, "hades_trees:olive_leaves");
+  table.insert(leaves, "hades_trees:orange_leaves");
+  table.insert(leaves, "hades_trees:pale_leaves");
+  -- grass 1
+  table.insert(grass_1, "hades_grass:junglegrass");
+  -- grass 3
+  -- grass 5
+  table.insert(grass_5, "hades_grass:grass_");
+  table.insert(dry_grass_5, "hades_grass:dead_grass_");
+end
 
 -- leaves
 for _,item_name in pairs(leaves) do
