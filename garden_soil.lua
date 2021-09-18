@@ -1,8 +1,13 @@
 local S = composting.translator
 
 local time_divider = composting.settings.soil_time_divider;
+local time_const_base = 365*24*3600/256;
+local wet_points = composting.settings.wet_points;
 
 composting.watering_cans = {}
+composting.fertilize_items = {
+  ["composting:compost_clod"] = 127
+}
 
 if minetest.get_modpath("bucket") then
   -- bucket mod
@@ -36,17 +41,26 @@ if minetest.get_modpath("wateringcan") then
   end
   
   composting.watering_cans["wateringcan:wateringcan_water"] = empty_wateringcan;
+  
+  if wateringcan and wateringcan.wettable_nodes then
+    wateringcan.wettable_nodes["composting:garden_soil"] = function(pos)
+        local node = minetest.get_node(pos);
+        node.name = "composting:garden_soil_wet";
+        node.param1 = wet_points;
+        minetest.swap_node(pos, node);
+      end
+  end
 end
 
-local garden_soil_tiles = {"composting_garden_soil.png"};
-local garden_soil_wet_tiles = {"composting_garden_soil_wet.png"};
+local garden_soil_tiles = nil;
+local garden_soil_wet_tiles = nil;
 if minetest.get_modpath("farming") then
-  garden_soil_tiles = {"composting_garden_soil.png^farming_soil.png", "composting_garden_soil.png"};
-  garden_soil_tiles = {"composting_garden_soil_wet.png^farming_soil_wet.png", "composting_garden_soil.png^farming_soil_wet_side.png"};
+  garden_soil_tiles = {{name="farming_soil.png",color="white"}, ""};
+  garden_soil_wet_tiles = {{name="farming_soil_wet.png",color="white"}, {name="farming_soil_wet_side.png",color="white"}};
 end
 if minetest.get_modpath("hades_farming") then
-  garden_soil_tiles = {"composting_garden_soil.png^hades_farming_soil.png", "composting_garden_soil.png"};
-  garden_soil_tiles = {"composting_garden_soil_wet.png^hades_farming_soil_wet.png", "composting_garden_soil.png^hades_farming_soil_wet_side.png"};
+  garden_soil_tiles = {{name="hades_farming_soil.png",color="white"}, ""};
+  garden_soil_wet_tiles = {{name="hades_farming_soil_wet.png",color="white"}, {name="hades_farming_soil_wet_side.png",color="white"}};
 end
 
 -- garden soil
@@ -83,29 +97,34 @@ minetest.register_node("composting:garden_soil", {
     short_description = short_desc,
     description = desc,
     _tt_help = tt_help,
+    paramtype2 = "color",
+    palette = "composting_garden_soil_palette.png",
+    color = "#6A4B31",
     tiles = {"composting_garden_soil.png"},
+    overlay_tiles = garden_soil_tiles,
     -- soil have to be 2, because farming code detect wet soil via soil value
     groups = {crumbly = 3, soil = 2, grassland = 1},
     drop = "default:dirt",
     sounds = node_sounds,
     on_construct = function(pos)
       local node = minetest.get_node(pos);
-      node.param1 = 255;
+      node.param2 = 255;
       minetest.swap_node(pos, node);
       local timer = minetest.get_node_timer(pos);
-      timer:start((3422/time_divider)/effect_of_flora(pos));
+      timer:start((time_const_base/time_divider)/effect_of_flora(pos));
     end,
     on_timer = function(pos, elapsed)
-      local node = minetest.get_node(pos);  
-      if (node.param1>0) then
-        node.param1 = node.param1-1;
+      local node = minetest.get_node(pos);
+      if (node.param2>0) then
+        node.param2 = node.param2-1;
         if minetest.find_node_near(pos, 3, {"group:water"}) then
           node.name = "composting:garden_soil_wet";
         end
         minetest.swap_node(pos, node);
         local timer = minetest.get_node_timer(pos);
-        timer:start((3422/time_divider)/effect_of_flora(pos));
-        return true;
+        --print(dump(pos)..timer:get_timeout().." gt:"..minetest.get_gametime())
+        timer:set((time_const_base/time_divider)/effect_of_flora(pos), 0);
+        return false;
       else
         minetest.set_node(pos, {name="farming:soil"});
       end
@@ -114,12 +133,25 @@ minetest.register_node("composting:garden_soil", {
     on_punch = function(pos, node, puncher)
       if puncher then
         local item = puncher:get_wielded_item();
-        local watering_can = composting.watering_cans[item:get_name()];
+        local item_name = item:get_name();
+        local watering_can = composting.watering_cans[item_name];
         if watering_can then
           node.name = "composting:garden_soil_wet"
-          node.param2 = 4;
+          node.param1 = wet_points;
           minetest.swap_node(pos, node);
           puncher:set_wielded_item(watering_can(puncher, item));
+          return
+        end
+        local compost_clod = composting.fertilize_items[item_name];
+        if compost_clod then
+          node.param2 = node.param2+127;
+          if (node.param2>255) then
+            node.param2 = 255;
+          end
+          minetest.swap_node(pos, node);
+          item:take_item(1)
+          puncher:set_wielded_item(item);
+          return
         end
       end
     end,
@@ -135,39 +167,44 @@ minetest.register_node("composting:garden_soil_wet", {
     short_description = short_desc,
     description = desc,
     _tt_help = tt_help,
+    paramtype2 = "color",
+    palette = "composting_garden_soil_palette.png",
+    color = "$6A4B31",
     tiles = {"composting_garden_soil_wet.png"},
+    overlay_tiles = garden_soil_wet_tiles,
     groups = {crumbly = 3, soil = 5, grassland = 1, wet = 1, not_in_creative_inventory = 1},
     drop = "default:dirt",
     sounds = node_sounds,
     on_construct = function(pos)
       local node = minetest.get_node(pos);
-      node.param1 = 255;
-      node.param2 = 4;
+      node.param2 = 255;
+      node.param1 = wet_point;
       minetest.swap_node(pos, node);
       local timer = minetest.get_node_timer(pos);
-      timer:start((1711/time_divider)/effect_of_flora(pos));
+      timer:start(((time_const_base/2)/time_divider)/effect_of_flora(pos));
     end,
     on_timer = function(pos, elapsed)
       local node = minetest.get_node(pos);  
-      if (node.param1>0) then
-        local timer_const = 3422;
-        node.param1 = node.param1-1;
+      if (node.param2>0) then
+        local timer_const = time_const_base/2;
+        node.param2 = node.param2-1;
         if minetest.find_node_near(pos, 3, {"group:water"}) then
-          node.param2 = 4;
+          node.param1 = wet_points;
         end
-        if (node.param2>0) then
-          node.param2 = node.param2-1;
+        if (node.param1>0) then
+          node.param1 = node.param1-1;
         else
           if not minetest.find_node_near(pos, 3, {"ignore"}) then
             node.name = "composting:garden_soil";
-            timer_const = 1711;
+            timer_const = time_const_base;
           end
         end
         minetest.swap_node(pos, node);
         local timer = minetest.get_node_timer(pos);
+        --print(dump(pos)..timer:get_timeout().." gt:"..minetest.get_gametime())
         timer:start((timer_const/time_divider)/effect_of_flora(pos));
-        return true;
-      elseif (node.param2>0) then
+        return false;
+      elseif (node.param1>0) then
         minetest.set_node(pos, {name="farming:soil_wet"});
       else
         minetest.set_node(pos, {name="farming:soil"});
@@ -177,14 +214,27 @@ minetest.register_node("composting:garden_soil_wet", {
     on_punch = function(pos, node, puncher)
       if puncher then
         local item = puncher:get_wielded_item();
-        local watering_can = composting.watering_cans[item:get_name()];
+        local item_name = item:get_name();
+        local watering_can = composting.watering_cans[item_name];
         if watering_can then
-          node.param2 = node.param2+4;
-          if (node.param2>5) then
-            node.param2 = 5;
+          node.param1 = node.param1+wet_points;
+          if (node.param1>wet_points) then
+            node.param1 = wet_points;
           end
           minetest.swap_node(pos, node);
           puncher:set_wielded_item(watering_can(puncher, item));
+          return
+        end
+        local compost_clod = composting.fertilize_items[item_name];
+        if compost_clod then
+          node.param2 = node.param2+127;
+          if (node.param2>255) then
+            node.param2 = 255;
+          end
+          minetest.swap_node(pos, node);
+          item:take_item(1);
+          puncher:set_wielded_item(item);
+          return
         end
       end
     end,

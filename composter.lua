@@ -135,11 +135,11 @@ function composter_on_timer(pos, elapsed)
   
   if (amount>0) then
     local timer = minetest.get_node_timer(pos);
-    timer:set(base_production_time*speed, 0);
+    timer:start(base_production_time*speed, 0);
   end
   composter_update_node(pos, node, meta);
   
-  return amount>0;
+  return false; -- timer:start force timer to continue, return true will erase new timer setting
 end
 
 local short_desc = S("Composter");

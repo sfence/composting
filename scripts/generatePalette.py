@@ -23,4 +23,10 @@ palette = []
 for i in range(16):
   add_pixels(palette, help_colors[i], (48,48,48,255), 16)
 img.putdata(palette)
-img.save("palette.png")
+img.save("composting_composter_palette.png")
+
+img = Image.new(mode="RGBA",size=(16,16),color=(0,0,0,255));
+palette = []
+add_pixels(palette, (106,75,49,255), (70,40,10,255), 256)
+img.putdata(palette)
+img.save("composting_garden_soil_palette.png")
