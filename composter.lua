@@ -6,6 +6,26 @@ local time_divider = composting.settings.composting_time_divider;
 
 local base_production_time = ((365*24*3600)/amount_limit)/time_divider;
 
+local function composter_update_timer(pos, C, N, amount, produced)
+  if (amount>0) then
+    local ratio = C/N;
+    local speed = 1/(((amount+produced)/amount_limit)^4);
+    
+    if ratio>32.5 then
+      speed = speed*math.exp(ratio/500);
+    else
+      speed = speed*math.exp(ratio/25);
+    end
+    
+    local timer = minetest.get_node_timer(pos);
+    if timer:is_started() then
+      timer:set(base_production_time*speed, timer:get_elapsed());
+    else
+      timer:start(base_production_time*speed);
+    end
+  end
+end
+
 local function composter_update_node(pos, node)
   local meta = minetest.get_meta(pos)
   local amount = meta:get_int("amount");
@@ -29,10 +49,7 @@ local function composter_update_node(pos, node)
     node.name = "composting:composter_filled";
     node.param2 = line*16+done;
     minetest.swap_node(pos, node);
-    local timer = minetest.get_node_timer(pos);
-    if not timer:is_started() then
-      timer:start(base_production_time);
-    end
+    composter_update_timer(pos, C, N, amount, produced)
     
     if (produced>=produced_per_clod) then
       meta:set_string("infotext", S("Compost clod."));
@@ -59,10 +76,11 @@ local function composter_on_punch(pos, node, puncher, pointed_thing)
       if item_def and item_def._compost then
         local meta = minetest.get_meta(pos);
         local amount = meta:get_int("amount");
-        local C = meta:get_int("C");
-        local N = meta:get_int("N");
+        local produced = meta:get_int("produced");
         amount = amount + item_def._compost.amount;
-        if (amount<amount_limit) then
+        if ((amount+produced)<amount_limit) then
+          local C = meta:get_int("C");
+          local N = meta:get_int("N");
           C = C + item_def._compost.C;
           N = N + item_def._compost.N;
           meta:set_int("amount", amount);
@@ -127,16 +145,6 @@ function composter_on_timer(pos, elapsed)
   local ratio = C/N;
   local speed = 1/(((amount+produced)/amount_limit)^4);
   
-  if ratio>32.5 then
-    speed = speed*math.exp(ratio/500);
-  else
-    speed = speed*math.exp(ratio/25);
-  end
-  
-  if (amount>0) then
-    local timer = minetest.get_node_timer(pos);
-    timer:start(base_production_time*speed, 0);
-  end
   composter_update_node(pos, node, meta);
   
   return false; -- timer:start force timer to continue, return true will erase new timer setting
@@ -144,7 +152,7 @@ end
 
 local short_desc = S("Composter");
 local desc = short_desc;
-local tt_help = S("Punch me with compostable item in hand to fill me.");
+local tt_help = S("Fill me by punching me with compostable item in hand.").."\n"..S("Use shovel to get compost clod.");
 if (minetest.get_modpath("tt")==nil) then
   desc = desc.."\n"..tt_help;
 end
@@ -175,14 +183,6 @@ minetest.register_node("composting:composter", {
     },
     
     on_punch = composter_on_punch,
-    on_construct = function (pos)
-      local meta = minetest.get_meta(pos);
-      print("on_construct: "..dump(meta:to_table()))
-      meta:set_int("amount", 0)
-      meta:set_int("N", 0)
-      meta:set_int("C", 0)
-      meta:set_int("production", 0)
-    end,
   })
 
 minetest.register_node("composting:composter_filled", {
@@ -200,6 +200,7 @@ minetest.register_node("composting:composter_filled", {
         "composting_composter_filled.png",
     },
     palette = "composting_composter_palette.png",
+    drop = "composting:composter",
     
     on_punch = composter_on_punch,
     on_timer = composter_on_timer,

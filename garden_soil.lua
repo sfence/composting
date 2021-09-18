@@ -75,9 +75,14 @@ local function effect_of_flora(pos)
   end
 end
 
+local drop_dirt = "default:dirt";
+if minetest.get_modpath("hades_core") then
+  drop_dirt = "hades_core:dirt"
+end
+
 local short_desc = S("Garden Soil");
 local desc = short_desc;
-local tt_help = S("Punch me with water bucket/wateringcan to make me wet.");
+local tt_help = S("Punch me with water bucket/wateringcan to make me wet.").."\n"..S("Punch me with compost clod to make me more fertile.");
 if (minetest.get_modpath("tt")==nil) then
   desc = desc.."\n"..tt_help;
 end
@@ -104,7 +109,7 @@ minetest.register_node("composting:garden_soil", {
     overlay_tiles = garden_soil_tiles,
     -- soil have to be 2, because farming code detect wet soil via soil value
     groups = {crumbly = 3, soil = 2, grassland = 1},
-    drop = "default:dirt",
+    drop = drop_dirt,
     sounds = node_sounds,
     on_construct = function(pos)
       local node = minetest.get_node(pos);
@@ -173,7 +178,7 @@ minetest.register_node("composting:garden_soil_wet", {
     tiles = {"composting_garden_soil_wet.png"},
     overlay_tiles = garden_soil_wet_tiles,
     groups = {crumbly = 3, soil = 5, grassland = 1, wet = 1, not_in_creative_inventory = 1},
-    drop = "default:dirt",
+    drop = drop_dirt,
     sounds = node_sounds,
     on_construct = function(pos)
       local node = minetest.get_node(pos);
