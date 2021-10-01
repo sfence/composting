@@ -177,7 +177,7 @@ minetest.register_node("composting:garden_soil_wet", {
     color = "$6A4B31",
     tiles = {"composting_garden_soil_wet.png"},
     overlay_tiles = garden_soil_wet_tiles,
-    groups = {crumbly = 3, soil = 5, grassland = 1, wet = 1, not_in_creative_inventory = 1},
+    groups = {crumbly = 3, soil = 6, grassland = 1, wet = 1, not_in_creative_inventory = 1},
     drop = drop_dirt,
     sounds = node_sounds,
     on_construct = function(pos)
