@@ -19,6 +19,7 @@ end
 local leaves = {};
 local dry_leaves = {};
 local needles = {};
+local saplings = {};
 local stems = {};
 local grass_1 = {};
 local grass_3 = {};
@@ -41,6 +42,17 @@ if minetest.get_modpath("default") then
   -- needles
   table.insert(needles, "default:pine_bush_needles");
   table.insert(needles, "default:pine_needles");
+  -- saplings
+  table.insert(saplings, "default:acacia_bush_sapling"); 
+  table.insert(saplings, "default:acacia_sapling"); 
+  table.insert(saplings, "default:aspen_sapling"); 
+  table.insert(saplings, "default:blueberry_bush_sapling"); 
+  table.insert(saplings, "default:bush_sapling"); 
+  table.insert(saplings, "default:emergent_jungle_sapling"); 
+  table.insert(saplings, "default:junglesapling"); 
+  table.insert(saplings, "default:pine_bush_sapling"); 
+  table.insert(saplings, "default:pine_sapling"); 
+  table.insert(saplings, "default:sapling"); 
   -- stems
   table.insert(stems, "default:dry_shrub");
   table.insert(stems, "default:bush_stem");
@@ -74,6 +86,17 @@ if minetest.get_modpath("hades_trees") then
   table.insert(leaves, "hades_trees:orange_leaves");
   table.insert(leaves, "hades_trees:pale_leaves");
   table.insert(stems, "hades_trees:burned_branches")
+  table.insert(saplings, "hades_trees:banana_sapling"); 
+  table.insert(saplings, "hades_trees:birch_sapling"); 
+  table.insert(saplings, "hades_trees:canvas_sapling"); 
+  table.insert(saplings, "hades_trees:cocoa_sapling"); 
+  table.insert(saplings, "hades_trees:coconut_sapling"); 
+  table.insert(saplings, "hades_trees:cultivated_jungle_sapling"); 
+  table.insert(saplings, "hades_trees:jungle_sapling"); 
+  table.insert(saplings, "hades_trees:olive_sapling"); 
+  table.insert(saplings, "hades_trees:orange_sapling"); 
+  table.insert(saplings, "hades_trees:pale_sapling"); 
+  table.insert(saplings, "hades_trees:sapling"); 
 end
 if minetest.get_modpath("hades_grass") then
   -- grass 1
@@ -97,67 +120,87 @@ if minetest.get_modpath("baldcypress") or minetest.get_modpath("hades_baldcypres
   table.insert(leaves, "baldcypress:leaves");
   table.insert(vines, "baldcypress:liana")
   table.insert(stems, "baldcypress:dry_branches")
+  table.insert(saplings, "baldcypress:sapling"); 
 end
 if minetest.get_modpath("bamboo") or minetest.get_modpath("hades_bamboo") then
   table.insert(leaves, "bamboo:leaves");
+  compostable["bamboo:sprout"] = {amount=5,ratio=75}
 end
 if minetest.get_modpath("birch") or minetest.get_modpath("hades_birch") then
   table.insert(leaves, "birch:leaves");
+  table.insert(saplings, "birch:sapling"); 
 end
 if minetest.get_modpath("cherrytree") or minetest.get_modpath("hades_cherrytree") then
   table.insert(leaves, "cherrytree:leaves");
   compostable["cherrytree:blossom_leaves"] = {amount=15,ratio=170}
+  table.insert(saplings, "cherrytree:sapling"); 
 end
 if minetest.get_modpath("chesnuttree") or minetest.get_modpath("hades_chesnuttree") then
   table.insert(leaves, "chesnuttree:leaves");
+  table.insert(saplings, "chesnuttree:sapling"); 
 end
 if minetest.get_modpath("clementinetree") or minetest.get_modpath("hades_clementinetree") then
   table.insert(leaves, "clementinetree:leaves");
+  table.insert(saplings, "clementinetree:sapling"); 
 end
 if minetest.get_modpath("ebony") or minetest.get_modpath("hades_ebony") then
   table.insert(leaves, "ebony:leaves");
   table.insert(vines, "ebony:liana")
   compostable["ebony:creeper"] = {amount=5,ratio=70}
   compostable["ebony:creeper_leaves"] = {amount=6,ratio=50}
+  table.insert(saplings, "ebony:sapling"); 
 end
 if minetest.get_modpath("canvas") or minetest.get_modpath("hades_canvas") then
   table.insert(leaves, "canvas:leaves");
+  table.insert(saplings, "canvas:sapling"); 
 end
 if minetest.get_modpath("hollytree") or minetest.get_modpath("hades_hollytree") then
   table.insert(leaves, "hollytree:leaves");
+  table.insert(saplings, "hollytree:sapling"); 
 end
 if minetest.get_modpath("jacaranda") or minetest.get_modpath("hades_jacaranda") then
   compostable["jacaranda:blossom_leaves"] = {amount=15,ratio=170}
+  table.insert(saplings, "jacaranda:sapling"); 
 end
 if minetest.get_modpath("larch") or minetest.get_modpath("hades_larch") then
   table.insert(leaves, "larch:leaves");
+  table.insert(saplings, "larch:sapling"); 
 end
 if minetest.get_modpath("lemontree") or minetest.get_modpath("hades_lemontree") then
   table.insert(leaves, "lemontree:leaves");
+  table.insert(saplings, "lemontree:sapling"); 
 end
 if minetest.get_modpath("mahogany") or minetest.get_modpath("hades_mahogany") then
   table.insert(leaves, "mahogany:leaves");
+  table.insert(saplings, "mahogany:sapling"); 
 end
 if minetest.get_modpath("maple") or minetest.get_modpath("hades_maple") then
   table.insert(leaves, "maple:leaves");
+  table.insert(saplings, "maple:sapling"); 
 end
 if minetest.get_modpath("oak") or minetest.get_modpath("hades_oak") then
   table.insert(leaves, "oak:leaves");
+  table.insert(saplings, "oak:sapling"); 
 end
 if minetest.get_modpath("palm") or minetest.get_modpath("hades_palm") then
   compostable["palm:leaves"] = {amount=8,ratio=150}
+  table.insert(saplings, "palm:sapling"); 
 end
 if minetest.get_modpath("plumtree") or minetest.get_modpath("hades_plumtree") then
   table.insert(leaves, "plumtree:leaves");
+  table.insert(saplings, "plumtree:sapling"); 
 end
 if minetest.get_modpath("pomegranate") or minetest.get_modpath("hades_pomegranate") then
   table.insert(leaves, "pomegranate:leaves");
+  table.insert(saplings, "pomegranate:sapling"); 
 end
 if minetest.get_modpath("willow") or minetest.get_modpath("hades_willow") then
   table.insert(leaves, "willow:leaves");
+  table.insert(saplings, "willow:sapling"); 
 end
 if minetest.get_modpath("technic") or minetest.get_modpath("hades_technic") or minetest.get_modpath("moretrees")  then
   table.insert(leaves, "moretrees:rubber_tree_leaves");
+  table.insert(saplings, "moretrees:rubber_tree_sapling"); 
 end
 if minetest.get_modpath("hades_farming") then
   compostable["hades_farming:wheat"] = {amount=4,ratio=120}
@@ -173,13 +216,18 @@ for _,item_name in pairs(leaves) do
   composting.add_composting_data(item_name, 15, 190);
 end
 for _,item_name in pairs(dry_leaves) do
-  -- 195:1 branches with leaves
+  -- 195:1 branches with dry leaves
   composting.add_composting_data(item_name, 15, 195);
 end
 -- needles
 for _,item_name in pairs(needles) do
   -- 200:1 branches with needles
   composting.add_composting_data(item_name, 15, 200);
+end
+-- saplings
+for _,item_name in pairs(saplings) do
+  -- 125:1 saplings
+  composting.add_composting_data(item_name, 5, 125);
 end
 -- stems
 for _,item_name in pairs(stems) do

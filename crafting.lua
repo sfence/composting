@@ -1,4 +1,15 @@
 
+if minetest.get_modpath("default") then
+  minetest.register_craft({
+    type = "shapeless",
+    output = "default:dirt",
+    recipe = {
+      "default:dry_dirt",
+      "composting:compost_clod",
+    }
+  })  
+end
+
 local dirt = "default:dirt";
 if minetest.get_modpath("hades_core") then
   dirt = "hades_core:dirt";

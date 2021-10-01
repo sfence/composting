@@ -17,6 +17,17 @@ local function composter_update_timer(pos, C, N, amount, produced)
       speed = speed*math.exp(ratio/25);
     end
     
+    -- limit speed to keep some real times for composting proces
+    if speed>20 then
+      speed = 20;
+    end
+    
+    -- check for dirt under, penalty if no dirt
+    local under = minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z});
+    if (minetest.get_item_group(under.name, "soil")==0) then
+      speed = 2*speed;
+    end
+    
     local timer = minetest.get_node_timer(pos);
     if timer:is_started() then
       timer:set(base_production_time*speed, timer:get_elapsed());
