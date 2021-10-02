@@ -18,10 +18,10 @@ composting_time_divider (Time divider for composting speed) int 3600
 
 # Garden soil time divider set how long it take to garden soil be exhauset and changed into farming soil.
 #
-# soil_time_divider    72 -> change to dirt in 122 hours
-# soil_time_divider   720 -> change to dirt in 12 hours
-# soil_time_divider  3600 -> change to dirt in 2.5 hours
-# soil_time_divider  7200 -> change to dirt in 1.25 hours
+# soil_time_divider    72 -> change to dirt in 61 - 122 hours
+# soil_time_divider   720 -> change to dirt in 6 - 12 hours
+# soil_time_divider  3600 -> change to dirt in 1.25 - 2.5 hours
+# soil_time_divider  7200 -> change to dirt in 0.6125 - 1.25 hours
 #
 composting_soil_time_divider (Time divider for garden soil timer) int 720
 
@@ -31,4 +31,10 @@ composting_soil_time_divider (Time divider for garden soil timer) int 720
 # soil_wet_points  25 -> get dry in 71 minutes
 #
 composting_soil_wet_points (Wet points of garden soil) int 25
+
+# Growth acceleration effect
+#
+# Should work with all flora mods wchis uses timer for grow plants.
+#
+composting_growth_acc_effect (Growth acceleration effect.) float 0.17 0 1
 

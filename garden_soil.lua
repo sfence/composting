@@ -3,6 +3,7 @@ local S = composting.translator
 local time_divider = composting.settings.soil_time_divider;
 local time_const_base = 365*24*3600/256;
 local wet_points = composting.settings.wet_points;
+local growth_acc_effect = composting.settings.growth_acc_effect;
 
 composting.watering_cans = {}
 composting.fertilize_items = {
@@ -64,11 +65,19 @@ if minetest.get_modpath("hades_farming") then
 end
 
 -- garden soil
-local function effect_of_flora(pos)
+local function effect_of_flora(pos, growth_accel)
   local pos = vector.add(pos, vector.new(0,1,0));
   local node = minetest.get_node(pos);
-  local flora = minetest.get_item_group(node.name, "flora");
-  if (flora>0) then
+  local plant = minetest.get_item_group(node.name, "plant");
+  if (plant>0) then
+    if growth_accel then
+      local timer = minetest.get_node_timer(pos);
+      local timeout = timer:get_timeout();
+      if (timeout>0) then
+        local elapsed = timer:get_elapsed();
+        timer:set(timeout, elapsed+timeout*growth_accel);
+      end
+    end
     return 2;
   else
     return 1;
@@ -205,9 +214,10 @@ minetest.register_node("composting:garden_soil_wet", {
           end
         end
         minetest.swap_node(pos, node);
+        local flora_effect = effect_of_flora(pos, growth_acc_effect*node.param2/255.0);
         local timer = minetest.get_node_timer(pos);
         --print(dump(pos)..timer:get_timeout().." gt:"..minetest.get_gametime())
-        timer:start((timer_const/time_divider)/effect_of_flora(pos));
+        timer:start((timer_const/time_divider)/flora_effect);
         return false;
       elseif (node.param1>0) then
         minetest.set_node(pos, {name="farming:soil_wet"});
