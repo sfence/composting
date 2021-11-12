@@ -91,7 +91,7 @@ end
 
 local short_desc = S("Garden Soil");
 local desc = short_desc;
-local tt_help = S("Punch me with water bucket/wateringcan to make me wet.").."\n"..S("Punch me with compost clod to make me more fertile.");
+local tt_help = S("Punch me with water bucket/wateringcan to make me wet.").."\n"..S("Punch me with compost clod under garden trowel to make me more fertile.");
 if (minetest.get_modpath("tt")==nil) then
   desc = desc.."\n"..tt_help;
 end
@@ -156,17 +156,6 @@ minetest.register_node("composting:garden_soil", {
           puncher:set_wielded_item(watering_can(puncher, item));
           return
         end
-        local compost_clod = composting.fertilize_items[item_name];
-        if compost_clod then
-          node.param2 = node.param2+127;
-          if (node.param2>255) then
-            node.param2 = 255;
-          end
-          minetest.swap_node(pos, node);
-          item:take_item(1)
-          puncher:set_wielded_item(item);
-          return
-        end
       end
     end,
   })
@@ -192,7 +181,7 @@ minetest.register_node("composting:garden_soil_wet", {
     on_construct = function(pos)
       local node = minetest.get_node(pos);
       node.param2 = 255;
-      node.param1 = wet_point;
+      node.param1 = wet_points;
       minetest.swap_node(pos, node);
       local timer = minetest.get_node_timer(pos);
       timer:start(((time_const_base/2)/time_divider)/effect_of_flora(pos));
@@ -238,17 +227,6 @@ minetest.register_node("composting:garden_soil_wet", {
           end
           minetest.swap_node(pos, node);
           puncher:set_wielded_item(watering_can(puncher, item));
-          return
-        end
-        local compost_clod = composting.fertilize_items[item_name];
-        if compost_clod then
-          node.param2 = node.param2+127;
-          if (node.param2>255) then
-            node.param2 = 255;
-          end
-          minetest.swap_node(pos, node);
-          item:take_item(1);
-          puncher:set_wielded_item(item);
           return
         end
       end

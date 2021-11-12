@@ -36,5 +36,5 @@ composting_soil_wet_points (Wet points of garden soil) int 25
 #
 # Should work with all flora mods wchis uses timer for grow plants.
 #
-composting_growth_acc_effect (Growth acceleration effect.) float 0.17 0 1
+composting_growth_acc_effect (Growth acceleration effect) float 0.25 0 1
 
