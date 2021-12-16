@@ -9,7 +9,9 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/settings.lua")
 
 dofile(modpath.."/composter.lua")
---dofile(modpath.."/electric_composter.lua")
+if minetest.get_modpath("appliances") then
+  dofile(modpath.."/electric_composter.lua")
+end
 
 dofile(modpath.."/integration.lua")
 

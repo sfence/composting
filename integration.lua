@@ -150,9 +150,9 @@ if minetest.get_modpath("ebony") or minetest.get_modpath("hades_ebony") then
   compostable["ebony:creeper_leaves"] = {amount=6,ratio=50}
   table.insert(saplings, "ebony:sapling"); 
 end
-if minetest.get_modpath("canvas") or minetest.get_modpath("hades_canvas") then
-  table.insert(leaves, "canvas:leaves");
-  table.insert(saplings, "canvas:sapling"); 
+if minetest.get_modpath("chestnuttree") or minetest.get_modpath("hades_chestnuttree") then
+  table.insert(leaves, "chestnuttree:leaves");
+  table.insert(saplings, "chestnuttree:sapling"); 
 end
 if minetest.get_modpath("hollytree") or minetest.get_modpath("hades_hollytree") then
   table.insert(leaves, "hollytree:leaves");
@@ -165,6 +165,7 @@ end
 if minetest.get_modpath("larch") or minetest.get_modpath("hades_larch") then
   table.insert(leaves, "larch:leaves");
   table.insert(saplings, "larch:sapling"); 
+  compostable["larch:moss"] = {amount=1,ratio=30}
 end
 if minetest.get_modpath("lemontree") or minetest.get_modpath("hades_lemontree") then
   table.insert(leaves, "lemontree:leaves");

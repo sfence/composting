@@ -3,7 +3,7 @@ composting_amount_per_composter (Maximum amount of biomase per composter) int 20
 
 # Compost clod cost
 #
-# If compost is optimally fulled, it takes around 20 minutes for one compost clod to be finished (time_divider set to 3600).
+# If compost is optimally fulled, it takes around 20 minutes for one compost clod to be finished (time_divider set to 3600) in normal composter and around 3 minutes in electric composter (electric_composter_time set to 10).
 #
 composting_clod_cost (How much amount of compost cost compost clod) int 25
 
@@ -15,6 +15,9 @@ composting_clod_cost (How much amount of compost cost compost clod) int 25
 # time_divider 7200  -> ideal composting time 1.25 hours. 
 #
 composting_time_divider (Time divider for composting speed) int 3600
+
+#
+composting_electric_composter_time (Time per one amount for electric composter) int 10
 
 # Garden soil time divider set how long it take to garden soil be exhauset and changed into farming soil.
 #
