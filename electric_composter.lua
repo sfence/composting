@@ -13,7 +13,7 @@ composting.electric_composter = appliances.appliance:new(
       node_name_active = "composting:electric_composter_active",
       
       node_description = S("Electric Composter"),
-    	node_help = S("Connect to LV/generator power (100 EU).").."\n"..S("Accelerate composting process of biomaterial."),
+    	node_help = S("Connect to LV/generator power (@1).", "100 EU").."\n"..S("Accelerate composting process of biomaterial."),
       
       usage_stack = 0,
       have_usage = false,
@@ -41,7 +41,7 @@ electric_composter:power_data_register(
         run_speed = 1,
         disable = {"no_power"}
       },
-    ["power_generators_power"] = {
+    ["power_generators_electric_power"] = {
         demand = 100,
         run_speed = 1,
         disable = {"no_power"}
@@ -99,9 +99,9 @@ function electric_composter:recipe_inventory_can_put(pos, listname, index, stack
   return 0
 end
 
-function electric_composter:recipe_inventory_can_take(pos, listname, index, stack, player)
-  if player then
-    if minetest.is_protected(pos, player:get_player_name()) then
+function electric_composter:recipe_inventory_can_take(pos, listname, index, stack, player_name)
+  if player_name then
+    if minetest.is_protected(pos, player_name) then
       return 0
     end
   end
@@ -210,10 +210,7 @@ electric_composter:recipe_register_input(
 		consumption_step_size = 1,
 	});
 
-minetest.register_on_mods_loaded(
-    function ()
-      electric_composter:register_recipes("composting_electric_composter", "composting_electric_composter_usage")
-    end
+  electric_composter:register_recipes("composting_electric_composter", "composting_electric_composter_usage")
   )
 --]]
 
