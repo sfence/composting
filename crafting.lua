@@ -44,10 +44,6 @@ end
 if minetest.get_modpath("hades_core") then
   metal_ingot = "hades_core:steel_ingot"
 end
-if minetest.get_modpath("hades_extramaterials") then
-  motor = "hades_extramaterials:motor"
-  transformer = "hades_extramaterials:copper_wire"
-end
 if minetest.get_modpath("hades_technic") then
   metal_ingot = "hades_technic:carbon_steel_ingot"
   transformer = "hades_technic:lv_transformer"
