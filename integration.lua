@@ -150,6 +150,11 @@ if minetest.get_modpath("ebony") or minetest.get_modpath("hades_ebony") then
   compostable["ebony:creeper_leaves"] = {amount=6,ratio=50}
   table.insert(saplings, "ebony:sapling"); 
 end
+if minetest.get_modpath("cacaotree") or minetest.get_modpath("hades_cacaotree") then
+  table.insert(leaves, "cacaotree:leaves");
+  table.insert(vines, "cacaotree:liana")
+  table.insert(saplings, "cacaotree:sapling"); 
+end
 if minetest.get_modpath("chestnuttree") or minetest.get_modpath("hades_chestnuttree") then
   table.insert(leaves, "chestnuttree:leaves");
   table.insert(saplings, "chestnuttree:sapling"); 
@@ -195,9 +200,21 @@ if minetest.get_modpath("pomegranate") or minetest.get_modpath("hades_pomegranat
   table.insert(leaves, "pomegranate:leaves");
   table.insert(saplings, "pomegranate:sapling"); 
 end
+if minetest.get_modpath("sequoia") or minetest.get_modpath("hades_sequoia") then
+  table.insert(leaves, "sequoia:leaves");
+  table.insert(saplings, "sequoia:sapling"); 
+end
 if minetest.get_modpath("willow") or minetest.get_modpath("hades_willow") then
   table.insert(leaves, "willow:leaves");
   table.insert(saplings, "willow:sapling"); 
+end
+if minetest.get_modpath("technic") then
+  compostable["technic:common_tree_grindings"] = {amount=64,ratio=500}
+  compostable["technic:sawdust"] = {amount=64,ratio=500}
+end
+if minetest.get_modpath("paleotest") then
+  table.insert(leaves, "paleotest:metasequoia_leaves");
+  table.insert(saplings, "paleotest:metasequoia_sapling"); 
 end
 if minetest.get_modpath("technic") or minetest.get_modpath("hades_technic") or minetest.get_modpath("moretrees")  then
   table.insert(leaves, "moretrees:rubber_tree_leaves");
@@ -209,6 +226,10 @@ if minetest.get_modpath("hades_farming") then
 end
 if minetest.get_modpath("hades_darkage") then
   compostable["hades_darkage:straw_bale"] = {amount=64,ratio=120}
+end
+if minetest.get_modpath("hades_technic") then
+  compostable["hades_technic:common_tree_grindings"] = {amount=64,ratio=500}
+  compostable["hades_technic:sawdust"] = {amount=64,ratio=500}
 end
 
 -- leaves
