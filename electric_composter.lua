@@ -33,6 +33,10 @@ electric_composter:item_data_register(
   {
     ["tube_item"] = {
       },
+    ["techage_item"] = {
+      },
+    ["minecart_item"] = {
+      },
   })
 electric_composter:power_data_register(
   {
@@ -43,6 +47,16 @@ electric_composter:power_data_register(
       },
     ["power_generators_electric_power"] = {
         demand = 100,
+        run_speed = 1,
+        disable = {"no_power"}
+      },
+    ["elepower_power"] = {
+        demand = 8,
+        run_speed = 1,
+        disable = {"no_power"}
+      },
+    ["techage_electric_power"] = {
+        demand = 40,
         run_speed = 1,
         disable = {"no_power"}
       },
