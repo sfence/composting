@@ -125,6 +125,7 @@ local function composter_on_punch(pos, node, puncher, pointed_thing)
         else
           minetest.add_item(pos, clod);
         end
+        composter_update_node(pos, node, meta);
       end
     end
   end
