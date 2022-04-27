@@ -13,7 +13,7 @@ composting.electric_composter = appliances.appliance:new(
       node_name_active = "composting:electric_composter_active",
       
       node_description = S("Electric Composter"),
-    	node_help = S("Connect to LV/generator power (@1).", "100 EU").."\n"..S("Accelerate composting process of biomaterial."),
+    	node_help = S("Accelerate composting process of biomaterial."),
       
       usage_stack = 0,
       have_usage = false,
@@ -40,6 +40,10 @@ electric_composter:item_data_register(
   })
 electric_composter:power_data_register(
   {
+    ["no_power"] = {
+        run_speed = 1,
+        disable = {}
+      },
     ["LV_power"] = {
         demand = 100,
         run_speed = 1,
@@ -60,11 +64,14 @@ electric_composter:power_data_register(
         run_speed = 1,
         disable = {"no_power"}
       },
-    ["no_power"] = {
+    ["factory_power"] = {
+        demand = 5,
         run_speed = 1,
-        disable = {}
+        disable = {"no_power"}
       },
   })
+
+electric_composter.node_help = S("Connect to power (@1).", electric_composter:get_power_help()).."\n"..electric_composter.node_help
 
 --------------
 -- Formspec --
