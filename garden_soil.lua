@@ -10,6 +10,14 @@ composting.fertilize_items = {
   ["composting:compost_clod"] = 127
 }
 
+local node_soil = "farming:soil"
+local node_soil_wet = "farming:soil_wet"
+
+if minetest.get_modpath("hades_farming") then
+  node_soil = "hades_farming:soil"
+  node_soil_wet = "hades_farming:soil_wet"
+end
+
 if minetest.get_modpath("bucket") then
   -- bucket mod
   local function empty_bucket(puncher, itemstack)
@@ -140,7 +148,7 @@ minetest.register_node("composting:garden_soil", {
         timer:set((time_const_base/time_divider)/effect_of_flora(pos), 0);
         return false;
       else
-        minetest.set_node(pos, {name="farming:soil"});
+        minetest.set_node(pos, {name=node_soil});
       end
       return false;
     end,
@@ -209,9 +217,9 @@ minetest.register_node("composting:garden_soil_wet", {
         timer:start((timer_const/time_divider)/flora_effect);
         return false;
       elseif (node.param1>0) then
-        minetest.set_node(pos, {name="farming:soil_wet"});
+        minetest.set_node(pos, {name=node_soil_wet});
       else
-        minetest.set_node(pos, {name="farming:soil"});
+        minetest.set_node(pos, {name=node_soil});
       end
       return false;
     end,

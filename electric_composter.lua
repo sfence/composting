@@ -41,7 +41,6 @@ electric_composter:item_data_register(
 electric_composter:power_data_register(
   {
     ["no_power"] = {
-        run_speed = 1,
         disable = {}
       },
     ["LV_power"] = {
