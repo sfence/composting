@@ -131,7 +131,9 @@ if minetest.get_modpath("birch") or minetest.get_modpath("hades_birch") then
   table.insert(saplings, "birch:sapling"); 
 end
 if minetest.get_modpath("cherrytree") or minetest.get_modpath("hades_cherrytree") then
-  table.insert(leaves, "cherrytree:leaves");
+  if minetest.registered_nodes["cherrytree:leaves"] then
+    table.insert(leaves, "cherrytree:leaves");
+  end
   compostable["cherrytree:blossom_leaves"] = {amount=15,ratio=170}
   table.insert(saplings, "cherrytree:sapling"); 
 end
