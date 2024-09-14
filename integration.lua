@@ -24,7 +24,9 @@ local stems = {};
 local grass_1 = {};
 local grass_3 = {};
 local grass_5 = {};
+local dry_grass_1 = {};
 local dry_grass_5 = {};
+local flowers = {};
 local vines = {}
 
 local compostable = {}
@@ -114,7 +116,7 @@ if minetest.get_modpath("hades_vines") then
   table.insert(vines, "hades_vines:jungle_rotten")
   table.insert(vines, "hades_vines:willow")
   table.insert(vines, "hades_vines:willow_rotten")
-  table.insert(vines, "hades_vines:root")
+  compostable["hades_vines:root"] = {amount=4,ratio=30}
 end
 if minetest.get_modpath("baldcypress") or minetest.get_modpath("hades_baldcypress") then
   table.insert(leaves, "baldcypress:leaves");
@@ -233,6 +235,123 @@ if minetest.get_modpath("hades_technic") then
   compostable["hades_technic:common_tree_grindings"] = {amount=64,ratio=500}
   compostable["hades_technic:sawdust"] = {amount=64,ratio=500}
 end
+-- plantlife modpack
+if minetest.get_modpath("bushes") then
+  table.insert(leaves, "bushes:BushLeaves1");
+  table.insert(leaves, "bushes:BushLeaves2");
+end
+if minetest.get_modpath("dryplants") then
+  table.insert(grass_1, "dryplants:grass");
+  table.insert(dry_grass_1, "dryplants:hay");
+  table.insert(leaves, "dryplants:juncus");
+  table.insert(leaves, "dryplants:reedmace_sapling");
+end
+if minetest.get_modpath("ferns") then
+  table.insert(saplings, "ferns:sapling_giant_tree_fern");
+  table.insert(saplings, "ferns:sapling_tree_fern");
+  compostable["ferns:horsetail_01"] = {amount=2,ratio=80}
+  compostable["ferns:horsetail_02"] = {amount=3,ratio=80}
+  compostable["ferns:horsetail_03"] = {amount=4,ratio=80}
+  compostable["ferns:horsetail_04"] = {amount=5,ratio=80}
+end
+if minetest.get_modpath("pl_seaweed") then	
+  compostable["flowers:seaweed"] = {amount=2,ratio=17.8}
+end
+if minetest.get_modpath("pl_sunflowers") then
+  compostable["flowers:sunflower"] = {amount=4,ratio=30}
+end
+if minetest.get_modpath("pl_waterlilies") then
+  compostable["flowers:waterlily"] = {amount=2,ratio=20}
+end
+if minetest.get_modpath("poisonivy") then
+  compostable["poisonivy:climbing"] = {amount=5,ratio=50}
+  compostable["poisonivy:seedling"] = {amount=5,ratio=50}
+  compostable["poisonivy:sproutling"] = {amount=5,ratio=50}
+end
+if minetest.get_modpath("trunks") then
+  compostable["trunks:moss_plain_0"] = {amount=1,ratio=30}
+  compostable["trunks:moss_with_fungus_0"] = {amount=2,ratio=27}
+end
+if minetest.get_modpath("vines") then
+  -- vines
+  table.insert(vines, "vines:jungle_end")
+  table.insert(vines, "vines:jungle_middle")
+  table.insert(vines, "vines:side_end")
+  table.insert(vines, "vines:side_middle")
+  table.insert(vines, "vines:vine_end")
+  table.insert(vines, "vines:vine_middle")
+  table.insert(vines, "vines:willow")
+  table.insert(vines, "vines:willow_middle")
+  compostable["vines:root_middle"] = {amount=4,ratio=30}
+  compostable["vines:root_end"] = {amount=4,ratio=30}
+end
+-- End of plantlife modpack
+if minetest.get_modpath("naturalbiomes") then
+	-- leaves
+  table.insert(leaves, "naturalbiomes:acacia_leaves")
+  table.insert(leaves, "naturalbiomes:alder_leaves")
+  table.insert(leaves, "naturalbiomes:alpine_bush_leaves")
+  table.insert(leaves, "naturalbiomes:alppine1_leaves")
+  table.insert(leaves, "naturalbiomes:alppine2_leaves")
+  table.insert(leaves, "naturalbiomes:bamboo_leaves")
+  table.insert(leaves, "naturalbiomes:banana_leaves")
+  table.insert(leaves, "naturalbiomes:beach_bush_leaves")
+  table.insert(leaves, "naturalbiomes:med_bush_leaves")
+  table.insert(leaves, "naturalbiomes:olive_leaves")
+  table.insert(leaves, "naturalbiomes:outback_bush_leaves")
+  table.insert(leaves, "naturalbiomes:outback_leaves")
+  table.insert(leaves, "naturalbiomes:palm_leaves")
+  table.insert(leaves, "naturalbiomes:pine_leaves")
+	-- saplings
+  table.insert(saplings, "naturalbiomes:acacia_sapling")
+  table.insert(saplings, "naturalbiomes:alder_sapling")
+  table.insert(saplings, "naturalbiomes:alpine_bush_sapling")
+  table.insert(saplings, "naturalbiomes:alppine1_sapling")
+  table.insert(saplings, "naturalbiomes:alppine2_sapling")
+  table.insert(saplings, "naturalbiomes:bamboo_sapling")
+  table.insert(saplings, "naturalbiomes:banana_sapling")
+  table.insert(saplings, "naturalbiomes:beach_bush_sapling")
+  table.insert(saplings, "naturalbiomes:med_bush_sapling")
+  table.insert(saplings, "naturalbiomes:olive_sapling")
+  table.insert(saplings, "naturalbiomes:outback_bush_sapling")
+  table.insert(saplings, "naturalbiomes:outback_sapling")
+  table.insert(saplings, "naturalbiomes:palm_sapling")
+  table.insert(saplings, "naturalbiomes:pine_sapling")
+	-- grass
+  table.insert(grass_1, "naturalbiomes:bambooforest_groundgrass")
+  table.insert(grass_1, "naturalbiomes:bambooforest_groundgrass2")
+  table.insert(grass_1, "naturalbiomes:alpine_grass1")
+  table.insert(grass_1, "naturalbiomes:alpine_grass2")
+  table.insert(grass_1, "naturalbiomes:alpine_grass3")
+  table.insert(grass_1, "naturalbiomes:med_grass1")
+  table.insert(grass_1, "naturalbiomes:med_grass2")
+  table.insert(dry_grass_1, "naturalbiomes:outback_grass")
+  table.insert(grass_1, "naturalbiomes:outback_grass2")
+  table.insert(dry_grass_1, "naturalbiomes:outback_grass3")
+  table.insert(grass_1, "naturalbiomes:outback_grass4")
+  table.insert(grass_1, "naturalbiomes:outback_grass5")
+  table.insert(dry_grass_1, "naturalbiomes:outback_grass6")
+  table.insert(grass_1, "naturalbiomes:palmbeach_grass1")
+  table.insert(grass_1, "naturalbiomes:palmbeach_grass2")
+  table.insert(grass_1, "naturalbiomes:palmbeach_grass3")
+  table.insert(grass_1, "naturalbiomes:savanna_flowergrass")
+  table.insert(grass_1, "naturalbiomes:savanna_grass2")
+  table.insert(grass_1, "naturalbiomes:savanna_grass3")
+  table.insert(grass_1, "naturalbiomes:savannagrass")
+  table.insert(grass_1, "naturalbiomes:savannagrasssmall")
+	-- flowers etc
+  table.insert(flowers, "naturalbiomes:alderswamp_yellowflower")
+  table.insert(flowers, "naturalbiomes:alpine_dandelion")
+  table.insert(flowers, "naturalbiomes:alpine_edelweiss")
+  table.insert(flowers, "naturalbiomes:med_flower1")
+  table.insert(flowers, "naturalbiomes:med_flower2")
+  table.insert(flowers, "naturalbiomes:med_flower3")
+  compostable["naturalbiomes:alderswamp_reed"] = {amount=5,ratio=19}
+  compostable["naturalbiomes:alderswamp_reed2"] = {amount=6,ratio=19}
+  compostable["naturalbiomes:alderswamp_reed3"] = {amount=7,ratio=19}
+  compostable["naturalbiomes:alderswamp_brownreed"] = {amount=5,ratio=20}
+  compostable["naturalbiomes:waterlily"] = {amount=2,ratio=20}
+end
 
 -- leaves
 for _,item_name in pairs(leaves) do
@@ -262,6 +381,9 @@ end
 for _,item_name in pairs(grass_1) do
   composting.add_composting_data(item_name, 3, 17);
 end
+for _,item_name in pairs(dry_grass_1) do
+  composting.add_composting_data(item_name, 3, 25);
+end
 -- grass 3
 for i=1,3 do
   local part = i/3;
@@ -278,6 +400,10 @@ for i=1,5 do
   for _,item_name in pairs(dry_grass_5) do
     composting.add_composting_data(item_name..i, 1+math.floor(2*part), 25);
   end
+end
+-- flowers
+for _,item_name in pairs(flowers) do
+  composting.add_composting_data(item_name, 2, 25);
 end
 -- vines
 for _,item_name in pairs(vines) do
