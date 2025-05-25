@@ -126,6 +126,7 @@ minetest.register_node("composting:garden_soil", {
     overlay_tiles = garden_soil_tiles,
     -- soil have to be 2, because farming code detect wet soil via soil value
     groups = {crumbly = 3, soil = 2, grassland = 1},
+    soil = {},
     drop = drop_dirt,
     sounds = node_sounds,
     on_construct = function(pos)
@@ -184,6 +185,7 @@ minetest.register_node("composting:garden_soil_wet", {
     tiles = {"composting_garden_soil_wet.png"},
     overlay_tiles = garden_soil_wet_tiles,
     groups = {crumbly = 3, soil = 6, grassland = 1, wet = 1, not_in_creative_inventory = 1},
+    soil = {},
     drop = drop_dirt,
     sounds = node_sounds,
     on_construct = function(pos)
